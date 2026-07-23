@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TogelOn - Format Dana & Rekening</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --accent-blue: #3b82f6;
+            --accent-purple: #8b5cf6;
+            --accent-cyan: #06b6d4;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --input-bg: rgba(15, 23, 42, 0.6);
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animasi Background Glow */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -1;
+            opacity: 0.4;
+            animation: float 10s infinite ease-in-out;
+        }
+        .orb-1 { width: 300px; height: 300px; background: var(--accent-purple); top: -50px; left: -50px; }
+        .orb-2 { width: 400px; height: 400px; background: var(--accent-blue); bottom: -100px; right: -100px; animation-delay: 2s; }
+        .orb-3 { width: 200px; height: 200px; background: var(--accent-cyan); top: 40%; left: 50%; animation-delay: 4s; }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(30px, -30px); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #60a5fa, #c084fc, #22d3ee);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        header p {
+            color: var(--text-secondary);
+            margin-top: 10px;
+            font-size: 0.95rem;
+        }
+
+        .grid-layout {
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 900px) {
+            .grid-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Glass Card */
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 25px;
+            border-radius: 16px;
+            border: 1px solid var(--card-border);
+            margin-bottom: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .card h3 {
+            margin-top: 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card h3::before {
+            content: '';
+            display: block;
+            width: 4px;
+            height: 20px;
+            background: linear-gradient(to bottom, var(--accent-blue), var(--accent-purple));
+            border-radius: 2px;
+        }
+
+        /* Input Styles */
+        input, select {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 12px;
+            background: var(--input-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        input::placeholder { color: #64748b; }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+            background: rgba(15, 23, 42, 0.9);
+        }
+
+        select option {
+            background: var(--bg-dark);
+            color: var(--text-primary);
+        }
+
+        .row-flex {
+            display: flex;
+            gap: 15px;
+        }
+        .row-flex > div { flex: 1; }
+
+        label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 5px;
+            display: block;
+            font-weight: 500;
+        }
+
+        /* Buttons */
+        button {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            color: white;
+            border: none;
+            padding: 12px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+            width: 100%;
+            font-size: 1rem;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
+        }
+
+        button.danger {
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid var(--accent-red);
+            color: #fca5a5;
+            padding: 6px 12px;
+            width: auto;
+            font-size: 0.8rem;
+        }
+        button.danger:hover {
+            background: var(--accent-red);
+            color: white;
+            box-shadow: 0 5px 15px rgba(239, 68, 68, 0.3);
+        }
+
+        button.copy-btn {
+            background: linear-gradient(135deg, var(--accent-green), #14b8a6);
+            margin-top: 15px;
+        }
+        button.copy-btn:hover {
+            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
+        }
+
+        /* Table Styles */
+        .table-container {
+            max-height: 500px;
+            overflow-y: auto;
+            border-radius: 8px;
+            border: 1px solid var(--card-border);
+        }
+
+        /* Custom Scrollbar */
+        .table-container::-webkit-scrollbar { width: 8px; }
+        .table-container::-webkit-scrollbar-track { background: var(--input-bg); }
+        .table-container::-webkit-scrollbar-thumb { background: var(--accent-blue); border-radius: 4px; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        th {
+            background: rgba(15, 23, 42, 0.9);
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            padding: 15px;
+            text-align: left;
+            position: sticky;
+            top: 0;
+            backdrop-filter: blur(4px);
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+
+        tr:hover td {
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        .table-input {
+            background: transparent;
+            border: 1px solid transparent;
+            padding: 8px;
+            border-radius: 6px;
+            color: var(--text-primary);
+            width: 100%;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .table-input:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+            background: var(--input-bg);
+        }
+
+        .nominal-input {
+            font-weight: 600;
+            color: var(--accent-cyan);
+            text-align: right;
+            text-shadow: 0 0 10px rgba(6, 182, 212, 0.3);
+        }
+
+        .center { text-align: center; }
+
+        /* Checkbox Style */
+        .checkbox-lg {
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+            accent-color: var(--accent-blue);
+            transform: scale(1.1);
+        }
+
+        /* Output Area */
+        .output-card {
+            grid-column: 1 / -1;
+        }
+
+        textarea {
+            width: 100%;
+            height: 350px;
+            padding: 20px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            background: #020617;
+            color: #4ade80; /* Warna terminal hijau */
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            resize: vertical;
+            font-size: 1rem;
+            line-height: 1.6;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+        }
+        
+        textarea::placeholder { color: #334155; }
+    </style>
+</head>
+<body>
+
+<!-- Background Orbs -->
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+
+<div class="container">
+    <header>
+        <h1>Format Peminjam & Pengembalian TogelOn</h1>
+        <p>Sistem Otomatis · Centang rekening, isi nominal, format langsung jadi.</p>
+    </header>
+
+    <div class="grid-layout">
+        
+        <!-- Kolom Kiri: Form & Tabel -->
+        <div>
+            <!-- Form Tambah Data -->
+            <div class="card">
+                <h3>Tambah Rekening Baru</h3>
+                <input type="text" id="bankInput" placeholder="Nama Bank (cth: BCA)">
+                <input type="text" id="rekInput" placeholder="Nomor Rekening">
+                <input type="text" id="namaInput" placeholder="Nama Rekening">
+                <button onclick="tambahData()">Tambah ke Daftar</button>
+            </div>
+
+            <!-- Generator Settings -->
+            <div class="card">
+                <h3>Pengaturan Format</h3>
+                <div class="row-flex">
+                    <div>
+                        <label>Jenis Transaksi</label>
+                        <select id="perihalSelect" onchange="generateFormat()">
+                            <option value="Peminjaman dana">Peminjaman dana</option>
+                            <option value="Pengembalian dana">Pengembalian dana</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Dari Situs</label>
+                        <input type="text" id="situsInput" placeholder="Contoh: latoto" value="latoto" oninput="generateFormat()">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Kolom Kanan: Tabel Rekening -->
+        <div class="card" style="margin-bottom: 0; padding: 15px;">
+            <h3>Daftar Rekening Aktif</h3>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="center" style="width: 50px;">✓</th>
+                            <th>Bank</th>
+                            <th>No. Rekening</th>
+                            <th>Nama</th>
+                            <th style="width: 140px;">Nominal</th>
+                            <th class="center" style="width: 80px;">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabelRekening"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Hasil Format (Full Width di Bawah) -->
+        <div class="card output-card">
+            <h3>Hasil Format Otomatis (Real-Time)</h3>
+            <textarea id="hasilFormat" readonly placeholder="Format akan otomatis muncul disini saat Anda mencentang rekening..."></textarea>
+            <button class="copy-btn" onclick="copyHasil()">Copy ke Clipboard</button>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    // Data Awal
+    let dataRekening = [
+        { bank: 'DANAMON', rek: '903700949369', nama: 'WAHIDATU RIZCOH' },
+        { bank: 'DANAMON', rek: '3704614969', nama: 'Dewi Srihuna' },
+        { bank: 'BCA', rek: '8650795556', nama: 'Mohamad Raihan' },
+        { bank: 'BCA', rek: '0663583333', nama: 'Titin' },
+        { bank: 'BCA', rek: '5395252779', nama: 'Eky Mudiyanto' },
+        { bank: 'BCA', rek: '8660505998', nama: 'SULASTRI' },
+        { bank: 'BCA', rek: '0223311021', nama: 'Dewi Srihuna' },
+        { bank: 'BCA', rek: '5370572293', nama: 'Suamin Maulana' },
+        { bank: 'BCA', rek: '4790746479', nama: 'Susanah' },
+        { bank: 'BCA', rek: '4080247961', nama: 'SUKIYAH' }
+    ];
+
+    function formatRupiah(angka) {
+        if (!angka) return "";
+        return angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    function hanyaAngka(str) {
+        if (!str) return "";
+        return str.replace(/[^0-9]/g, '');
+    }
+
+    function renderData() {
+        let tabel = document.getElementById('tabelRekening');
+        tabel.innerHTML = '';
+
+        dataRekening.forEach((data, index) => {
+            let row = tabel.insertRow();
+            
+            // Checkbox
+            let cellCheck = row.insertCell(0);
+            cellCheck.className = 'center';
+            let checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.className = 'checkbox-lg rek-checkbox';
+            checkbox.dataset.index = index;
+            checkbox.onchange = generateFormat;
+            cellCheck.appendChild(checkbox);
+
+            // Bank (Teks Biasa)
+            row.insertCell(1).innerText = data.bank;
+
+            // No Rek (Teks Biasa - Tidak Bisa Diedit)
+            row.insertCell(2).innerText = data.rek;
+
+            // Nama (Teks Biasa)
+            row.insertCell(3).innerText = data.nama;
+
+            // Nominal (Input Koma Otomatis)
+            let cellNominal = row.insertCell(4);
+            let inputNominal = document.createElement('input');
+            inputNominal.type = 'text';
+            inputNominal.placeholder = '0';
+            inputNominal.className = 'table-input nominal-input';
+            inputNominal.dataset.index = index;
+            
+            inputNominal.oninput = function() {
+                let angkaMurni = hanyaAngka(this.value);
+                this.value = formatRupiah(angkaMurni);
+                generateFormat();
+            };
+            cellNominal.appendChild(inputNominal);
+
+            // Tombol Hapus
+            let cellAksi = row.insertCell(5);
+            cellAksi.className = 'center';
+            let btnHapus = document.createElement('button');
+            btnHapus.innerText = 'Hapus';
+            btnHapus.className = 'danger';
+            btnHapus.onclick = () => hapusData(index);
+            cellAksi.appendChild(btnHapus);
+        });
+    }
+
+    function tambahData() {
+        let bank = document.getElementById('bankInput').value.toUpperCase();
+        let rek = document.getElementById('rekInput').value;
+        let nama = document.getElementById('namaInput').value;
+
+        if(bank && rek && nama) {
+            dataRekening.push({ bank, rek, nama });
+            renderData();
+            document.getElementById('bankInput').value = '';
+            document.getElementById('rekInput').value = '';
+            document.getElementById('namaInput').value = '';
+        } else {
+            alert("Mohon isi semua kolom!");
+        }
+    }
+
+    function hapusData(index) {
+        if(confirm("Yakin ingin menghapus data ini?")) {
+            dataRekening.splice(index, 1);
+            renderData();
+            generateFormat();
+        }
+    }
+
+    function generateFormat() {
+        let perihal = document.getElementById('perihalSelect').value;
+        let situs = document.getElementById('situsInput').value || "[Isi Situs]";
+        
+        let checkboxes = document.querySelectorAll('.rek-checkbox');
+        let nominalInputs = document.querySelectorAll('.nominal-input');
+        
+        let hasilText = "";
+        let jumlahTerpilih = 0;
+
+        checkboxes.forEach((cb, index) => {
+            if (cb.checked) {
+                let nominalRaw = hanyaAngka(nominalInputs[index].value);
+                if (!nominalRaw || nominalRaw === "0") return; 
+                
+                let rek = dataRekening[index];
+                let nominalFormatted = formatRupiah(nominalRaw);
+
+                if (jumlahTerpilih === 0) {
+                    hasilText += `Info : TogelOn
+Perihal : ${perihal}
+Dari Situs : ${situs}
+
+`;
+                }
+
+                hasilText += `BANK BERSIH : ${rek.bank}
+NOMOR REKENING : ${rek.rek}
+NAMA REKENING : ${rek.nama}
+Nominal : Rp. ${nominalFormatted}
+
+`;
+                jumlahTerpilih++;
+            }
+        });
+
+        document.getElementById('hasilFormat').value = hasilText.trim();
+    }
+
+    function copyHasil() {
+        let hasil = document.getElementById('hasilFormat');
+        if(hasil.value === "") {
+            alert("Belum ada format yang dibuat!");
+            return;
+        }
+        hasil.select();
+        document.execCommand('copy');
+        alert("Format berhasil disalin!");
+    }
+
+    // Inisialisasi
+    renderData();
+    generateFormat();
+</script>
+
+</body>
+</html>
